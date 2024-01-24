@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator erd {
+  provider = "prisma-erd-generator"
+    output = "../ERD.png"
+    theme = "forest"
+    includeRelationFromFields = true
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:123@localhost:5434/nest?schema=public"
+}
+
+model User {
+  UserID   Int       @id @default(autoincrement())
+  Username String    @unique
+  Email    String    @unique
+  Password String
+  accounts Account[]
+  Timestamp DateTime @default(now())
+}
+
+model Account {
+  AccountID    Int           @id @default(autoincrement())
+  Balance      Float
+  AccountType  String
+  transactions Transaction[]
+  UserID       Int // Foreign key referencing the User entity
+  user         User          @relation(fields: [UserID], references: [UserID])
+  Timestamp DateTime @default(now())
+}
+
+model Transaction {
+  TransactionID   Int      @id @default(autoincrement())
+  Amount          Float
+  TransactionType String
+  Timestamp       DateTime @default(now())
+  AccountID       Int // Foreign key referencing the Account entity
+  account         Account  @relation(fields: [AccountID], references: [AccountID])
+}
