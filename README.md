@@ -1,10 +1,13 @@
 ## General
 
 Basic CRUD application for users to register, login and transfer funds
+
 Users are assigned a JWT which is valid for 15 minutes after signing up / logging in
+
 Users must provide JWT in the header of transfer requests
 
 Contains docker-compose for the postgresql db
+
 Prisma used as the ORM
 
 ## Endpoints
